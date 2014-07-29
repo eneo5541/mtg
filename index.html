@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Index</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="handlebars-v1.3.0.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	<script type="text/javascript" src="app.js"></script>
+
+</div>
+	<div id="main">
+	<div id="header"></div>
+		<form>
+			<div id="content"></div>
+			<input id="submit" type="submit" value="Submit" disabled>
+		</form>
+		<img id="preview"></div>
+	</div>
+	
+<!-- for sets, sort by type (firstly by either (core/expansion), then alphabetically) -->
+<!-- for cards, sort by type (red, blue, multicolour, colourless, etc), then alphabetically) -->
+	
+	<script id="setListItemTemplate" type="text/x-handlebars-template">
+		<div style='font-weight: bold'><a href={{link}}>{{name}}</a></div>
+	</script>
+	
+	<script id="cardListItemTemplate" type="text/x-handlebars-template">
+		<div style="width: 700px;">
+			<div style='background: #eee; width: 300px; height:auto; float: left; font-weight: bold'>
+				{{name}}
+				<img id={{id}} class="previewIcon" onmouseover="openPreview(this)" onmouseout="closePreview(this)" style='width: 16px; height: 16px; background-color: #d6edfc; float: right;' src="assets/preview.gif">
+			</div>
+			<input style='width: 80px; height:auto; float: left;' placeholder="Price" type="text" name="Price">
+			<input style='width: 60px; height:auto; float: left;' placeholder="Qty" type="number" name="Quantity">
+		</div>
+	</script>
+</body>
+</html>

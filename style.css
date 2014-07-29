@@ -1,0 +1,46 @@
+body {
+	background-color: #eee;
+	font-family: "Helvetica Neue", "Segoe UI", Segoe, Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+	overflow:auto;
+    height:100%; 
+}
+
+#header {
+	position:relative;
+	background-color: #C0C0C0;
+	width: 1024px;
+	height: 50px;
+	font-weight: bold;
+}
+
+#main {
+	position:absolute;
+	left: 80px;
+	width: 1024px;
+}
+
+#content {
+	position:relative;
+	bottom: 0px;
+	top: 10px;
+	float: right; 
+	background-color: #C0C0C0;
+	width: 1024px;
+}
+
+#preview {
+	position:absolute;
+	width:223;
+	height: 310;
+	right: 0px;
+	display: none;
+}
+
+#submit {
+	position:absolute;
+	left: 950px;
+	top: 12px;
+}
