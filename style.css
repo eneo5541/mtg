@@ -7,7 +7,9 @@ body {
 	overflow:auto;
     height:100%; 
 }
-
+a  {
+	text-decoration:none;
+}
 #header {
 	position:relative;
 	background-color: #C0C0C0;
@@ -15,13 +17,11 @@ body {
 	height: 50px;
 	font-weight: bold;
 }
-
 #main {
 	position:absolute;
 	left: 80px;
 	width: 1024px;
 }
-
 #content {
 	position:relative;
 	bottom: 0px;
@@ -30,7 +30,6 @@ body {
 	background-color: #C0C0C0;
 	width: 1024px;
 }
-
 #preview {
 	position:absolute;
 	width:223;
@@ -38,7 +37,6 @@ body {
 	right: 0px;
 	display: none;
 }
-
 #submit {
 	position:absolute;
 	left: 950px;

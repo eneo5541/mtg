@@ -22,19 +22,16 @@
 		<img id="preview"></div>
 	</div>
 	
-<!-- for sets, sort by type (firstly by either (core/expansion), then alphabetically) -->
-<!-- for cards, sort by type (red, blue, multicolour, colourless, etc), then alphabetically) -->
-	
 	<script id="setListItemTemplate" type="text/x-handlebars-template">
 		<div style='font-weight: bold'><a href={{link}}>{{name}}</a></div>
 	</script>
 	
 	<script id="cardListItemTemplate" type="text/x-handlebars-template">
-		<div style="width: 700px;">
-			<div style='background: #eee; width: 300px; height:auto; float: left; font-weight: bold'>
-				{{name}}
-				<img id={{id}} class="previewIcon" onmouseover="openPreview(this)" onmouseout="closePreview(this)" style='width: 16px; height: 16px; background-color: #d6edfc; float: right;' src="assets/preview.gif">
-			</div>
+		<div style="width: 600px;">
+			<div style='background: #eee; width: 200px; height:auto; float: left; font-weight: bold;'>{{name}}</div>
+			<div style='background: #eee; width: 90px; height:auto; float: left; font-weight: bold; text-align:right'>{{colours}}</div>
+			<div style='background: #eee; width: 60px; height:auto; float: left; font-weight: bold; text-align:center'>{{rarity}}</div>
+			<img id={{id}} class="previewIcon" onmouseover="openPreview(this)" onmouseout="closePreview(this)" style='width: 16px; height: 16px; background-color: #d6edfc; float: left;' src="assets/preview.gif">
 			<input style='width: 80px; height:auto; float: left;' placeholder="Price" type="text" name="Price">
 			<input style='width: 60px; height:auto; float: left;' placeholder="Qty" type="number" name="Quantity">
 		</div>

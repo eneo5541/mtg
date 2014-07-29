@@ -15,7 +15,7 @@ function loadCardsList(setID)
 {
 	$header.html('Loading cards for ' + setID);
 	
-	var url = endPoint + "sets/" + setID + "/cards/?fields=id,name,colors,cardSetName";
+	var url = endPoint + "sets/" + setID + "/cards/?fields=id,name,colors,cardSetName,rarity,type";
 	var request = $.get(url);
 	request.done(function(data)
 	{
@@ -33,11 +33,47 @@ function loadCardsList(setID)
 			var cardData = {};
 			cardData.name = card.name;
 			cardData.id = card.id;
+			cardData.rarity = parseRarity(card.rarity);
+			
+			var colours = parseColours(card.colors);
+			if (colours == "None" && card.type == "Artifact")   // Replace colours with dots rather than letters
+				colours = "A";
+			cardData.colours = colours;
 			
 			var html = template(cardData);
 			$content.append(html);
 		}
 	});
+}
+
+function parseRarity(rarity)
+{
+	switch (rarity)
+	{
+		case "Common":
+			return "C";
+		case "Uncommon":
+			return "U";
+		case "Rare":
+			return "R";
+		case "Mythic Rare":
+			return "M";
+		default:
+			return "";
+	}
+}
+
+function parseColours(colors)
+{
+	var colours = colors.toString();
+	
+	colours = colours.replace("white", "W");
+	colours = colours.replace("red", "R");
+	colours = colours.replace("blue", "U");
+	colours = colours.replace("green", "G");
+	colours = colours.replace("black", "B");
+	
+	return colours;
 }
 
 function loadSetsList()
