@@ -52,10 +52,15 @@ input.formButton {
 div {
 	font-weight: bold;
 }
+div.listRow {
+	height: 26px;
+	background: #eee;
+	border-bottom:solid 2px #C0C0C0;
+}
 div.setListCategoryHeader {
 	width: 100%;
 }
-div.cardListColumn {
+div.cardListRow {
 	width: 60%;
 }
 div.cardItemTitle {
@@ -69,17 +74,16 @@ div.rarityIcon {
 	text-align:center;
 }
 div.listHeader {
-	background: #eee; 
 	height:20px; 
 	float: left; 
 }
 div.listItem {
-	background: #eee; 
 	height:20px; 
 	float: left;
 }
-div.price {
-	width: 70px;
+div.tcgPrice {
+	width: 80px;
+	padding-left: 14px;
 }
 input {
 	height:20px;

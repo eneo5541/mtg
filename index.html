@@ -28,14 +28,14 @@
 	</div>
 	
 	<script id="setListItemTemplate" type="text/x-handlebars-template">
-		<div class="setListCategoryHeader listHeader">{{title}}</div>
+		<div class="setListCategoryHeader listRow">{{title}}</div>
 		{{#each sets}}
-			<div><a href={{link}}>{{this.name}}</a></div>
+			<div class="cardListRow listRow"> - <a href={{link}}>{{this.name}}</a></div>
 		{{/each}}
 	</script>
 	
 	<script id="cardListItemTemplate" type="text/x-handlebars-template">
-		<div class="cardListColumn">
+		<div class="cardListRow listRow">
 			<div class="cardItemTitle listHeader">{{name}}</div>
 			<div class="colourList listItem">
 			{{#each colours}}
@@ -43,8 +43,8 @@
 			{{/each}}
 			</div>
 			<div class="rarityIcon listItem">{{rarity}}</div>
-			<img id="{{id}}" class="icon" onmouseover="openPreview(this)" onmouseout="closePreview(this)" style='float: left;' src="assets/preview.gif" />
-			<div class="price listItem">${{price}}</div>
+			<img id="{{id}}" class="icon" onmouseover="openPreview(this)" onmouseout="closePreview(this)" style='float: left;' src="assets/preview.png" />
+			<div class="tcgPrice listItem">${{price}}</div>
 			<input id="{{id}}_price" class="price" placeholder="Price" type="text"/>
 			<input id="{{id}}_quantity" class="quantity" placeholder="Qty" type="number" />
 		</div>
