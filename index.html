@@ -15,25 +15,38 @@
 </div>
 	<div id="main">
 	<div id="header"></div>
-		<form>
-			<div id="content"></div>
-			<input id="submit" type="submit" value="Submit" disabled>
-		</form>
-		<img id="preview"></div>
+	
+	<form id="searchForm" method="GET">
+		<input id="searchInput"  placeholder="Search..." type="text" name="search"/>
+		<input id="searchButton" class="formButton" type="submit" value="Search">
+	</form>
+	<form>
+		<div id="content"></div>
+		<input id="submit" class="formButton" type="submit" value="Submit" disabled>
+	</form>
+	<img id="preview"></div>
 	</div>
 	
 	<script id="setListItemTemplate" type="text/x-handlebars-template">
-		<div style='font-weight: bold'><a href={{link}}>{{name}}</a></div>
+		<div class="setListCategoryHeader listHeader">{{title}}</div>
+		{{#each sets}}
+			<div><a href={{link}}>{{this.name}}</a></div>
+		{{/each}}
 	</script>
 	
 	<script id="cardListItemTemplate" type="text/x-handlebars-template">
-		<div style="width: 600px;">
-			<div style='background: #eee; width: 200px; height:auto; float: left; font-weight: bold;'>{{name}}</div>
-			<div style='background: #eee; width: 90px; height:auto; float: left; font-weight: bold; text-align:right'>{{colours}}</div>
-			<div style='background: #eee; width: 60px; height:auto; float: left; font-weight: bold; text-align:center'>{{rarity}}</div>
-			<img id={{id}} class="previewIcon" onmouseover="openPreview(this)" onmouseout="closePreview(this)" style='width: 16px; height: 16px; background-color: #d6edfc; float: left;' src="assets/preview.gif">
-			<input style='width: 80px; height:auto; float: left;' placeholder="Price" type="text" name="Price">
-			<input style='width: 60px; height:auto; float: left;' placeholder="Qty" type="number" name="Quantity">
+		<div class="cardListColumn">
+			<div class="cardItemTitle listHeader">{{name}}</div>
+			<div class="colourList listItem">
+			{{#each colours}}
+				<img class="colourIcon icon" src="assets/{{this}}.png" />
+			{{/each}}
+			</div>
+			<div class="rarityIcon listItem">{{rarity}}</div>
+			<img id="{{id}}" class="icon" onmouseover="openPreview(this)" onmouseout="closePreview(this)" style='float: left;' src="assets/preview.gif" />
+			<div class="price listItem">${{price}}</div>
+			<input id="{{id}}_price" class="price" placeholder="Price" type="text"/>
+			<input id="{{id}}_quantity" class="quantity" placeholder="Qty" type="number" />
 		</div>
 	</script>
 </body>

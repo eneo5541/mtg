@@ -16,6 +16,7 @@ a  {
 	width: 1024px;
 	height: 50px;
 	font-weight: bold;
+	font-size:200%
 }
 #main {
 	position:absolute;
@@ -26,6 +27,7 @@ a  {
 	position:relative;
 	bottom: 0px;
 	top: 10px;
+	padding-top: 2px;
 	float: right; 
 	background-color: #C0C0C0;
 	width: 1024px;
@@ -37,8 +39,62 @@ a  {
 	right: 0px;
 	display: none;
 }
-#submit {
+#searchInput{
+	position:absolute;
+	left: 784px;
+	top: 10px;
+}
+input.formButton {
 	position:absolute;
 	left: 950px;
 	top: 12px;
+}
+div {
+	font-weight: bold;
+}
+div.setListCategoryHeader {
+	width: 100%;
+}
+div.cardListColumn {
+	width: 60%;
+}
+div.cardItemTitle {
+	width: 200px;
+}
+div.colourList {
+	width: 80px;
+}
+div.rarityIcon {
+	width:40px;
+	text-align:center;
+}
+div.listHeader {
+	background: #eee; 
+	height:20px; 
+	float: left; 
+}
+div.listItem {
+	background: #eee; 
+	height:20px; 
+	float: left;
+}
+div.price {
+	width: 70px;
+}
+input {
+	height:20px;
+	float: left;
+}
+input.price {
+	width: 80px; 
+}
+input.quantity {
+	width: 60px; 
+}
+img.colourIcon {
+	float: right;
+}
+img.icon {
+	width: 16px;
+	height: 16px;
 }

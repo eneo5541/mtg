@@ -1,96 +1,142 @@
-var endPoint = "http://api.mtgdb.info/";
+var MTGDB_endPoint = "http://api.mtgdb.info/";
+var Deckbrew_endPoint = "https://api.deckbrew.com/mtg/";
 
 $(document).ready(function() 
 {
 	$header = $("#header");
-	$preview = $("#preview");
 	$content = $("#content");
+	
 	if (getParameterByName("set") != null)
-		loadCardsList(getParameterByName("set"));
+		loadCardsList(getParameterByName("set"), 0);
+	else if (getParameterByName("search") != null)
+		searchForCard(getParameterByName("search"));  // Assuming no one needs more than 100 search results
 	else
 		loadSetsList();
 });
 
-function loadCardsList(setID)
+function searchForCard(cardName)
 {
-	$header.html('Loading cards for ' + setID);
+	hideSearch();
+	showSubmit();
 	
-	var url = endPoint + "sets/" + setID + "/cards/?fields=id,name,colors,cardSetName,rarity,type";
+	$content.html('');
+	$header.html('Loading cards for ' + cardName);
+	
+	var url = Deckbrew_endPoint + "cards/typeahead?q=" + cardName;
 	var request = $.get(url);
 	request.done(function(data)
 	{
-		$content.html('');
+		$header.html('Found ' + data.length + ' matches for ' + cardName);
+		
 		var templateSource = $("#cardListItemTemplate").html();
 		var template = Handlebars.compile(templateSource);
 		
 		for (i = 0; i < data.length; i++) 
 		{
 			var card = data[i];
+			if ((card.types == "land" && card.supertypes == "basic") || card.types == "vanguard")
+				continue;
 			
-			if (i == 0)
-				$header.html(card.cardSetName);
-			
-			var cardData = {};
-			cardData.name = card.name;
-			cardData.id = card.id;
-			cardData.rarity = parseRarity(card.rarity);
-			
-			var colours = parseColours(card.colors);
-			if (colours == "None" && card.type == "Artifact")   // Replace colours with dots rather than letters
-				colours = "A";
-			cardData.colours = colours;
-			
-			var html = template(cardData);
-			$content.append(html);
+			for (j = 0; j < card.editions.length; j++)
+			{
+				var edition = card.editions[j];
+				var cardData = {};
+				cardData.name = card.name;
+				cardData.colours = card.colors;
+				cardData.id = edition.multiverse_id;
+				cardData.rarity = parseRarity(edition.rarity);
+				cardData.price = (edition.price.high / 100);
+				
+				if ((card.colors == null || card.colors.length == 0) && card.cmc > 0)
+					cardData.colours = ["none"];
+				
+				var html = template(cardData);
+				$content.append(html);
+			}
 		}
 	});
 }
 
-function parseRarity(rarity)
+function loadCardsList(setID, page)
 {
-	switch (rarity)
+	hideSearch();
+	showSubmit();
+	
+	if (page == 0)
+		$content.html('');
+	$header.html('Loading cards for ' + setID);
+	
+	var url = Deckbrew_endPoint + "cards/?set=" + setID + "&page=" + page;
+	var request = $.get(url);
+	request.done(function(data)
 	{
-		case "Common":
-			return "C";
-		case "Uncommon":
-			return "U";
-		case "Rare":
-			return "R";
-		case "Mythic Rare":
-			return "M";
-		default:
-			return "";
-	}
+		var templateSource = $("#cardListItemTemplate").html();
+		var template = Handlebars.compile(templateSource);
+		
+		for (i = 0; i < data.length; i++) 
+		{
+			var card = data[i];
+			if ((card.types == "land" && card.supertypes == "basic") || card.types == "vanguard")
+				continue;
+			
+			var cardData = {};
+			cardData.name = card.name;
+			cardData.colours = card.colors;
+			if ((card.colors == null || card.colors.length == 0) && card.cmc > 0)
+				cardData.colours = ["none"];
+			
+			for (j = 0; j < card.editions.length; j++)
+			{
+				var edition = card.editions[j];
+				if (edition.set_id == setID)
+				{
+					cardData.id = edition.multiverse_id;
+					cardData.rarity = parseRarity(edition.rarity);
+					cardData.price = (edition.price.high / 100);
+				}
+			}
+			
+			var html = template(cardData);
+			$content.append(html);
+		}
+		
+		if (data.length >= 100)
+			loadCardsList(setID, (page+1));
+		else
+			getSetData(setID);
+	});
 }
 
-function parseColours(colors)
+function getSetData(setID)
 {
-	var colours = colors.toString();
-	
-	colours = colours.replace("white", "W");
-	colours = colours.replace("red", "R");
-	colours = colours.replace("blue", "U");
-	colours = colours.replace("green", "G");
-	colours = colours.replace("black", "B");
-	
-	return colours;
+	var url = Deckbrew_endPoint + "sets/" + setID;
+	var request = $.get(url);
+	request.done(function(data)
+	{
+		$header.html(data.name); 
+	});
 }
 
 function loadSetsList()
 {
-	$header.html('Loading character data...');
+	hideSubmit();
+	showSearch();
 	
-	var url = endPoint + "sets/";
+	$content.html('');
+	$header.html('Loading sets...');
+	
+	var url = MTGDB_endPoint + "sets/";
 	var request = $.get(url);
 	request.done(function(data)
 	{
 		$header.html('Done. Loaded ' + data.length + ' sets.');
-		$content.html('');
 		var templateSource = $("#setListItemTemplate").html();
 		var template = Handlebars.compile(templateSource);
 		
 		var setsList = data.reverse();
-		var promoList = [];
+		var promoList = []
+		
+		var setData = { title:"Core and Expansions", sets:[] };
 		for (i = 0; i < setsList.length; i++) 
 		{ 
 			var set = setsList[i];
@@ -104,17 +150,20 @@ function loadSetsList()
 				continue;
 			}
 			
-			var setData = parseSetData(set);
-			var html = template(setData);
-			$content.append(html);
+			setData.sets.push(parseSetData(set));
 		}
 		
+		var html = template(setData);
+		$content.append(html);
+		
+		setData = { title:"Promotional", sets:[] };
 		for (i = 0; i < promoList.length; i++) 
 		{ 
-			var setData = parseSetData(promoList[i]);
-			var html = template(setData);
-			$content.append(html);
+			setData.sets.push(parseSetData(promoList[i]));
 		}
+		
+		html = template(setData);
+		$content.append(html);
 	}); 
 }
 
@@ -125,6 +174,23 @@ function parseSetData(set)
 	setData.link = '?set=' + set.id;
 	
 	return setData;
+}
+
+function parseRarity(rarity)
+{
+	switch (rarity)
+	{
+		case "common":
+			return "C";
+		case "uncommon":
+			return "U";
+		case "rare":
+			return "R";
+		case "mythic":
+			return "M";
+		default:
+			return "";
+	}
 }
 
 function getParameterByName(name)
@@ -141,6 +207,7 @@ function getParameterByName(name)
 
 function openPreview(img)
 {
+	var $preview = $("#preview");
 	$preview.offset({ top: $( document ).scrollTop() });
 	$preview.attr("src", "http://api.mtgdb.info/content/card_images/" + img.id + ".jpeg");
 	$preview.show();
@@ -148,5 +215,27 @@ function openPreview(img)
 
 function closePreview(img)
 {
-	$preview.hide();
+	$("#preview").hide();
+}
+
+function hideSearch()
+{
+	$("#searchInput").attr('disabled', 'disabled').hide();
+	$("#searchButton").attr('disabled', 'disabled').hide();
+}
+
+function showSearch()
+{
+	$("#searchInput").removeAttr('disabled').show();
+	$("#searchButton").removeAttr('disabled').show();
+}
+
+function hideSubmit()
+{
+	$("#submit").attr('disabled', 'disabled').hide();
+}
+
+function showSubmit()
+{
+	$("#submit")/*.removeAttr('disabled')*/.show();  // Not ready to set form data yet
 }
