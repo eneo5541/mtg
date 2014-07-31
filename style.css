@@ -72,9 +72,8 @@ div.rarityIcon {
 	width:40px;
 	text-align:center;
 }
-div.inputLabel {
+div.spacer {
 	width:20px;
-	text-align:right;
 }
 div.listHeader {
 	height:20px; 
@@ -93,7 +92,7 @@ input {
 	float: left;
 }
 input.price {
-	width: 50px; 
+	width: 80px; 
 }
 input.quantity {
 	width: 60px; 

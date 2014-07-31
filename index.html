@@ -45,12 +45,9 @@
 			<div class="rarityIcon listItem">{{rarity}}</div>
 			<img id="{{id}}" class="icon" onmouseover="openPreview(this)" onmouseout="closePreview(this)" style='float: left;' src="assets/preview.png" />
 			<div class="tcgPrice listItem">${{price}}</div>
-			<div class="inputLabel listItem">+</div>
-			<input id="{{id}}_increase" class="price" placeholder="+++" type="text"/>
-			<div class="inputLabel listItem">-</div>
-			<input id="{{id}}_decrease" class="price" placeholder="---" type="text"/>
-			<div class="inputLabel listItem"></div>
-			<input id="{{id}}_quantity" class="quantity" placeholder="Qty" type="number" />
+			<input id="{{id}}_price" class="price" name="{{id}}_price" placeholder="${{price}}" type="text"/>
+			<div class="spacer listItem"></div>
+			<input id="{{id}}_quantity" class="quantity" name="{{id}}_quantity" placeholder="Qty" type="number" />
 		</div>
 	</script>
 </body>
