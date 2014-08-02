@@ -57,13 +57,18 @@ function searchForCard(cardName)
 	});
 }
 
+
+var cardIds = [];
 function loadCardsList(setID, page)
 {
 	hideSearch();
 	showSubmit();
 	
 	if (page == 0)
+	{
 		$content.html('');
+		cardIds = [];
+	}
 	$header.html('Loading cards for ' + setID);
 	
 	var url = Deckbrew_endPoint + "cards/?set=" + setID + "&page=" + page;
@@ -91,6 +96,7 @@ function loadCardsList(setID, page)
 				if (edition.set_id == setID)
 				{
 					cardData.id = edition.multiverse_id;
+					cardIds.push(cardData.id);
 					cardData.rarity = parseRarity(edition.rarity);
 					cardData.price = (edition.price.high / 100);
 				}
@@ -103,7 +109,25 @@ function loadCardsList(setID, page)
 		if (data.length >= 100)
 			loadCardsList(setID, (page+1));
 		else
+		{
+			getCardsFromMySQL(cardIds);
 			getSetData(setID);
+		}
+	});
+}
+
+function getCardsFromMySQL(cardIds)
+{
+	var request = $.post("requestCards.php", {cardIds: cardIds});
+	request.done(function(data)
+	{
+		var response = jQuery.parseJSON(data);
+		for (i = 0; i < response.length; i++) 
+		{
+			var card = response[i];
+			$("#" + card.id + "_price").attr("placeholder", "$" + (card.price / 100));
+			$("#" + card.id + "_quantity").attr("placeholder", card.quantity);
+		} 
 	});
 }
 
