@@ -63,10 +63,13 @@ div.setListCategoryHeader {
 	font-size: 21px;
 }
 div.cardItemTitle {
-	width: 200px;
+	width: 430px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 div.colourList {
-	width: 80px;
+	width: 130px;
 }
 div.rarityIcon {
 	width:40px;
