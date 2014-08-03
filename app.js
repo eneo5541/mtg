@@ -107,7 +107,9 @@ function loadCardsList(setID, page)
 		}
 		
 		if (data.length >= 100)
+		{
 			loadCardsList(setID, (page+1));
+		}
 		else
 		{
 			getCardsFromMySQL(cardIds);
@@ -125,8 +127,9 @@ function getCardsFromMySQL(cardIds)
 		for (i = 0; i < response.length; i++) 
 		{
 			var card = response[i];
-			$("#" + card.id + "_price").attr("placeholder", "$" + (card.price / 100));
-			$("#" + card.id + "_quantity").attr("placeholder", card.quantity);
+			//$("#" + card.id + "_price_label").html("$"+(card.price / 100));
+			$("#" + card.id + "_price").val(card.price / 100);
+			$("#" + card.id + "_quantity").val(card.quantity);
 		} 
 	});
 }
@@ -261,5 +264,5 @@ function hideSubmit()
 
 function showSubmit()
 {
-	$("#submit")/*.removeAttr('disabled')*/.show();  // Not ready to set form data yet
+	$("#submit").removeAttr('disabled').show();
 }

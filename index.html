@@ -20,9 +20,9 @@
 		<input id="searchInput"  placeholder="Search..." type="text" name="search"/>
 		<input id="searchButton" class="formButton" type="submit" value="Search">
 	</form>
-	<form>
+	<form id="updateForm" action="updateCards.php" method="POST">
 		<div id="content"></div>
-		<input id="submit" class="formButton" type="submit" value="Submit" disabled>
+		<input id="submit" class="formButton" type="submit" value="Submit">
 	</form>
 	<img id="preview"></div>
 	</div>
@@ -44,10 +44,10 @@
 			</div>
 			<div class="rarityIcon listItem">{{rarity}}</div>
 			<img id="{{id}}" class="icon" onmouseover="openPreview(this)" onmouseout="closePreview(this)" style='float: left;' src="assets/preview.png" />
-			<div class="tcgPrice listItem">${{price}}</div>
-			<input id="{{id}}_price" class="price" name="{{id}}_price" placeholder="${{price}}" type="text"/>
+			<div id="{{id}}_price_label" class="tcgPrice listItem">${{price}}</div>
+			<input id="{{id}}_price" class="price" name="{{id}}_price" value="{{price}}" type="text"/>
 			<div class="spacer listItem"></div>
-			<input id="{{id}}_quantity" class="quantity" name="{{id}}_quantity" placeholder="Qty" type="number" />
+			<input id="{{id}}_quantity" class="quantity" name="{{id}}_quantity" value="0" type="number" />
 		</div>
 	</script>
 </body>
