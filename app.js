@@ -1,6 +1,8 @@
 var MTGDB_endPoint = "http://api.mtgdb.info/";
 var Deckbrew_endPoint = "https://api.deckbrew.com/mtg/";
 
+var cardIds = [];
+
 $(document).ready(function() 
 {
 	$header = $("#header");
@@ -20,6 +22,7 @@ function searchForCard(cardName)
 	showSubmit();
 	
 	$content.html('');
+	cardIds = [];
 	$header.html('Loading cards for ' + cardName);
 	
 	var url = Deckbrew_endPoint + "cards/typeahead?q=" + cardName;
@@ -44,6 +47,7 @@ function searchForCard(cardName)
 				cardData.name = card.name;
 				cardData.colours = card.colors;
 				cardData.id = edition.multiverse_id;
+				cardIds.push(cardData.id);
 				cardData.rarity = parseRarity(edition.rarity);
 				cardData.price = (edition.price.high / 100);
 				
@@ -53,12 +57,12 @@ function searchForCard(cardName)
 				var html = template(cardData);
 				$content.append(html);
 			}
+			
+			getCardsFromMySQL(cardIds);
 		}
 	});
 }
 
-
-var cardIds = [];
 function loadCardsList(setID, page)
 {
 	hideSearch();
@@ -98,7 +102,7 @@ function loadCardsList(setID, page)
 					cardData.id = edition.multiverse_id;
 					cardIds.push(cardData.id);
 					cardData.rarity = parseRarity(edition.rarity);
-					cardData.price = (edition.price.high / 100);
+					cardData.price = (edition.price == null) ? 0 : (edition.price.high / 100);
 				}
 			}
 			
