@@ -18,8 +18,7 @@ $(document).ready(function()
 
 function searchForCard(cardName)
 {
-	hideSearch();
-	showSubmit();
+	switchToSubmit();
 	
 	$content.html('');
 	cardIds = [];
@@ -65,8 +64,7 @@ function searchForCard(cardName)
 
 function loadCardsList(setID, page)
 {
-	hideSearch();
-	showSubmit();
+	switchToSubmit();
 	
 	if (page == 0)
 	{
@@ -131,9 +129,14 @@ function getCardsFromMySQL(cardIds)
 		for (i = 0; i < response.length; i++) 
 		{
 			var card = response[i];
-			//$("#" + card.id + "_price_label").html("$"+(card.price / 100));
-			$("#" + card.id + "_price").val(card.price / 100);
-			$("#" + card.id + "_quantity").val(card.quantity);
+			
+			$priceObj = $("#" + card.id + "_price");
+			$priceObj.html('');
+			$priceObj.html(card.price / 100);
+			
+			$quantityObj = $("#" + card.id + "_quantity");
+			$quantityObj.html('');
+			$quantityObj.html(card.quantity);
 		} 
 	});
 }
@@ -150,8 +153,7 @@ function getSetData(setID)
 
 function loadSetsList()
 {
-	hideSubmit();
-	showSearch();
+	switchToSearch();
 	
 	$content.html('');
 	$header.html('Loading sets...');
@@ -236,37 +238,10 @@ function getParameterByName(name)
 		return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function openPreview(img)
+function switchToSubmit()
 {
-	var $preview = $("#preview");
-	$preview.offset({ top: $( document ).scrollTop() });
-	$preview.attr("src", "http://api.mtgdb.info/content/card_images/" + img.id + ".jpeg");
-	$preview.show();
 }
 
-function closePreview(img)
+function switchToSearch()
 {
-	$("#preview").hide();
-}
-
-function hideSearch()
-{
-	$("#searchInput").attr('disabled', 'disabled').hide();
-	$("#searchButton").attr('disabled', 'disabled').hide();
-}
-
-function showSearch()
-{
-	$("#searchInput").removeAttr('disabled').show();
-	$("#searchButton").removeAttr('disabled').show();
-}
-
-function hideSubmit()
-{
-	$("#submit").attr('disabled', 'disabled').hide();
-}
-
-function showSubmit()
-{
-	$("#submit").removeAttr('disabled').show();
 }

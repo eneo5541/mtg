@@ -44,6 +44,11 @@ a  {
 	left: 784px;
 	top: 10px;
 }
+#navButton{
+	position:absolute;
+	left: 14px;
+	top: 10px;
+}
 input.formButton {
 	position:absolute;
 	left: 950px;
